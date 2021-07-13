@@ -41,6 +41,7 @@ setup(
             "counts_loss_weight = basepairmodels.cli.counts_loss_weight:counts_loss_weight_main",
             "embeddings = basepairmodels.cli.embeddings:embeddings_main",            
             "shap_scores = basepairmodels.cli.shap_scores:shap_scores_main",
+            "var_shap = basepairmodels.cli.variant_shap_scores:shap_scores_main",
             "motif_discovery = basepairmodels.cli.motif_discovery:motif_discovery_main"
 #            "fastpredict = basepairmodels.cli.fastpredict:predict_main"
         ]

@@ -20,6 +20,11 @@ from tensorflow.keras.models import load_model
 from tensorflow.keras.utils import CustomObjectScope
 
 
+def insert_variant(seq, allele, position):
+    left, right = seq[:position-1], seq[position:]
+    return left + allele + right
+
+
 def save_scores(peaks_df, one_hot_sequences, hyp_shap_scores, output_fname):
     """
         Function to save shap scores to HDF5 file
@@ -84,10 +89,12 @@ def shap_scores(args, shap_dir):
     model = load_model(args.model)
     
     # read all the peaks into a pandas dataframe
+    # peaks_df = pd.read_csv(args.bed_file, sep='\t', header=None, 
+    #                        names=['chrom', 'st', 'end', 'name', 'score',
+    #                               'strand', 'signalValue', 'p', 'q', 'summit'])
     peaks_df = pd.read_csv(args.bed_file, sep='\t', header=None, 
-                           names=['chrom', 'st', 'end', 'name', 'score',
-                                  'strand', 'signalValue', 'p', 'q', 'summit'])
-
+                           names=['chrom', 'st', 'allele', 'summit', 'signalValue'])
+    # need chrom, start, end, st, en, dummy signalValue, summit
     if args.chroms is not None:
         # keep only those rows corresponding to the required 
         # chromosomes
@@ -175,11 +182,13 @@ def shap_scores(args, shap_dir):
     for idx, row in peaks_df.iterrows():
         start = row['start']
         end = row['end']
-        
+        peak_loc = row['st']
+        allele = row['allele']
         # fetch the reference sequence at the peak location
         try:
             #SEQUENCE IS OBTAINED HERE
-            seq = fasta_ref.fetch(row['chrom'], start, end).upper()        
+            seq = fasta_ref.fetch(row['chrom'], start, end).upper()
+            seq = insert_variant(seq, allele, peak_loc)        
         except ValueError: # start/end out of range
             logging.warn("Unable to fetch reference sequence at peak: "
                          "{} {}-{}.".format(row['chrom'], start, end))
