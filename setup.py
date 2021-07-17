@@ -43,6 +43,7 @@ setup(
             "shap_scores = basepairmodels.cli.shap_scores:shap_scores_main",
             "var_shap = basepairmodels.cli.variant_shap_scores:shap_scores_main",
             "motif_discovery = basepairmodels.cli.motif_discovery:motif_discovery_main"
+            "shap = basepairmodels.cli.shap:shap_scores_main"
 #            "fastpredict = basepairmodels.cli.fastpredict:predict_main"
         ]
     }
