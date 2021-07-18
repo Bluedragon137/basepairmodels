@@ -18,7 +18,6 @@ from mseqgen.sequtils import one_hot_encode
 from mseqgen.utils import gaussian1D_smoothing
 from tensorflow.keras.models import load_model
 from tensorflow.keras.utils import CustomObjectScope
-from load_model import load
 
 
 def insert_variant(seq, allele, position):
