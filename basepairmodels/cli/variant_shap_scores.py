@@ -182,7 +182,7 @@ def shap_scores(args, shap_dir):
     for idx, row in peaks_df.iterrows():
         start = row['start']
         end = row['end']
-        peak_loc = row['st']
+        peak_loc = 1057
         allele = row['allele']
         # fetch the reference sequence at the peak location
         try:
